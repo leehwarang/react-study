@@ -39,7 +39,6 @@ class App extends Component {
     const target = _contents.filter(
       content => content.id === this.state.selectedContentId
     );
-    console.log(target);
     return target[0];
   }
 
@@ -109,19 +108,14 @@ class App extends Component {
   }
 
   getArticleContent() {
-    let _article;
+    const mapFunc = {
+      welcome: () => this.welcomeContent(),
+      read: () => this.readContent(),
+      create: () => this.createContent(),
+      update: () => this.updateContent()
+    };
 
-    // 객체 매핑으로 바꾸어보려고 했는데 알 수 없는 오류나서 잠시 보류
-
-    if (this.state.mode === "welcome") {
-      _article = this.welcomeContent();
-    } else if (this.state.mode === "read") {
-      _article = this.readContent();
-    } else if (this.state.mode === "create") {
-      _article = this.createContent();
-    } else if (this.state.mode === "update") {
-      _article = this.updateContent();
-    }
+    const _article = mapFunc[this.state.mode]();
 
     return _article;
   }
