@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>GOGODAN</title>
+    <script
+      src="https://unpkg.com/react@16/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      class GuGuDan extends React.Component {
+        state = {
+          firstNumber: this.makeRandomNumber(),
+          secondNumber: this.makeRandomNumber(),
+          result: ""
+        };
+
+        makeRandomNumber() {
+          return Math.floor(Math.random() * 10) + 1;
+        }
+
+        compareAnswer(e) {
+          e.preventDefault();
+
+          const userInput = Number(this.input.value);
+          const answer = this.state.firstNumber * this.state.secondNumber;
+          const result =
+            Number(userInput) === answer ? "Great!" : "try again...";
+
+          if (result === "Great!") {
+            this.setState({
+              result: result,
+              firstNumber: this.makeRandomNumber(),
+              secondNumber: this.makeRandomNumber()
+            });
+          } else {
+            this.setState({ result: result });
+          }
+          this.input.value = "";
+          this.input.focus();
+        }
+
+        input;
+
+        render() {
+          return (
+            <>
+              <p>
+                {this.state.firstNumber} 곱하기 {this.state.secondNumber}는?
+              </p>
+              <form onSubmit={e => this.compareAnswer(e)}>
+                <input ref={c => (this.input = c)} type="number" />
+                <button> 입력</button> {/*button은 default가 submit */}
+              </form>
+              <p>{this.state.result}</p>
+            </>
+          );
+        }
+      }
+    </script>
+
+    <script type="text/babel">
+      ReactDOM.render(<GuGuDan />, document.querySelector("#root"));
+    </script>
+  </body>
+</html>
